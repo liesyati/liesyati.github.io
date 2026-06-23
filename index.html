@@ -199,15 +199,15 @@
       #controls {
         position: fixed;
         bottom: 24px;
-        right: 24px;
+        right: 12px;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
         z-index: 50;
       }
       .ctrl-btn {
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
         background: rgba(15, 23, 42, 0.85);
         border: 1px solid rgba(58, 166, 246, 0.3);
         border-radius: 10px;
@@ -216,7 +216,7 @@
         justify-content: center;
         cursor: pointer;
         color: #7ec4fb;
-        font-size: 18px;
+        font-size: 16px;
         transition:
           background 0.15s,
           border-color 0.15s;
@@ -227,18 +227,39 @@
         background: rgba(16, 137, 231, 0.25);
         border-color: #3aa6f6;
       }
+      @media (min-width: 640px) {
+        #controls { right: 24px; gap: 8px; }
+        .ctrl-btn { width: 42px; height: 42px; font-size: 18px; }
+      }
 
       /* ---- Legend ---- */
       #legend {
         position: fixed;
-        bottom: 24px;
-        left: 24px;
+        bottom: 0;
+        left: 0;
+        right: 0;
         z-index: 50;
-        background: rgba(9, 38, 73, 0.85);
-        border: 1px solid rgba(58, 166, 246, 0.2);
-        border-radius: 12px;
-        padding: 12px 16px;
+        background: rgba(9, 38, 73, 0.92);
+        border-top: 1px solid rgba(58, 166, 246, 0.2);
+        border-radius: 0;
+        padding: 8px 12px;
         backdrop-filter: blur(8px);
+        overflow-x: auto;
+      }
+      #legend-title { display: none; }
+      #legend-items { flex-direction: row; flex-wrap: nowrap; gap: 10px; }
+      @media (min-width: 640px) {
+        #legend {
+          bottom: 24px;
+          left: 24px;
+          right: auto;
+          border-radius: 12px;
+          border-top: none;
+          border: 1px solid rgba(58, 166, 246, 0.2);
+          padding: 12px 16px;
+        }
+        #legend-title { display: block; }
+        #legend-items { flex-direction: column; flex-wrap: wrap; gap: 6px; }
       }
 
       /* ---- Photo modal ---- */
@@ -259,10 +280,14 @@
         background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
         border: 1px solid rgba(58, 166, 246, 0.4);
         border-radius: 20px;
-        padding: 32px;
-        width: 340px;
+        padding: 24px 20px;
+        width: calc(100vw - 32px);
+        max-width: 340px;
         text-align: center;
         position: relative;
+      }
+      @media (min-width: 640px) {
+        #modal-card { padding: 32px; width: 340px; }
       }
       #modal-close {
         position: absolute;
@@ -278,44 +303,52 @@
   </head>
   <body class="bg-slate-950 text-white">
     <!-- Header -->
-    <header id="header" class="px-6 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div
-          class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-slate-900 font-bold text-sm"
-        >
-          N
-        </div>
-        <div>
-          <h1
-            class="text-white font-bold text-base leading-tight tracking-wide"
+    <header id="header" class="px-3 py-2 sm:px-6 sm:py-3">
+      <!-- Row 1: Logo + Title -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div
+            class="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-slate-900 font-bold text-sm"
           >
-            Silsilah Keluarga Nachrowi &amp; Dewi Mariam
-          </h1>
-          <p class="text-slate-400 text-xs">
-            Klik node untuk membuka/menutup cabang &bull; Scroll/pinch untuk
-            zoom &bull; Drag untuk menggeser
-          </p>
+            N
+          </div>
+          <div class="min-w-0">
+            <h1
+              class="text-white font-bold text-sm sm:text-base leading-tight tracking-wide truncate"
+            >
+              Silsilah Keluarga Nachrowi &amp; Dewi Mariam
+            </h1>
+            <p class="text-slate-400 text-xs hidden sm:block">
+              Klik node untuk membuka/menutup cabang &bull; Scroll/pinch untuk
+              zoom &bull; Drag untuk menggeser
+            </p>
+          </div>
+        </div>
+        <!-- Action buttons: always visible -->
+        <div class="flex items-center gap-1.5 sm:gap-3 ml-2 shrink-0">
+          <span
+            id="node-count"
+            class="bg-brand-900 text-brand-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium border border-brand-700 hidden sm:inline"
+            >0 anggota</span
+          >
+          <button
+            id="expand-all-btn"
+            class="bg-brand-700 hover:bg-brand-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-medium transition-colors"
+          >
+            <span class="hidden sm:inline">Buka </span>Semua
+          </button>
+          <button
+            id="collapse-all-btn"
+            class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 sm:px-3 py-1 rounded-full text-xs font-medium transition-colors"
+          >
+            <span class="hidden sm:inline">Tutup </span>Semua
+          </button>
         </div>
       </div>
-      <div class="flex items-center gap-3 text-xs text-slate-400">
-        <span
-          id="node-count"
-          class="bg-brand-900 text-brand-300 px-3 py-1 rounded-full font-medium border border-brand-700"
-          >0 anggota</span
-        >
-        <button
-          id="expand-all-btn"
-          class="bg-brand-700 hover:bg-brand-600 text-white px-3 py-1 rounded-full font-medium transition-colors"
-        >
-          Buka Semua
-        </button>
-        <button
-          id="collapse-all-btn"
-          class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-full font-medium transition-colors"
-        >
-          Tutup Semua
-        </button>
-      </div>
+      <!-- Row 2: hint text only on mobile -->
+      <p class="text-slate-500 text-xs mt-1 sm:hidden">
+        Klik 1x = buka/tutup &bull; 2x = detail &bull; Geser &amp; pinch untuk navigasi
+      </p>
     </header>
 
     <!-- Tree Canvas -->
@@ -374,71 +407,38 @@
     <!-- Legend -->
     <div id="legend">
       <p
+        id="legend-title"
         class="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wider"
       >
         Keterangan
       </p>
-      <div class="flex flex-col gap-1.5 text-xs">
-        <div class="flex items-center gap-2">
-          <div
-            class="w-3 h-3 rounded-sm"
-            style="background: linear-gradient(135deg, #92400e, #1e3a5f)"
-          ></div>
-          <span class="text-slate-300">Nenek/Kakek (Akar)</span>
+      <div id="legend-items" class="flex text-xs whitespace-nowrap">
+        <div class="flex items-center gap-1.5">
+          <div class="w-3 h-3 shrink-0 rounded-sm" style="background: linear-gradient(135deg, #92400e, #1e3a5f)"></div>
+          <span class="text-slate-300">Akar</span>
         </div>
-        <div class="flex items-center gap-2">
-          <div
-            class="w-3 h-3 rounded-sm"
-            style="background: linear-gradient(135deg, #0d3c6e, #0455a0)"
-          ></div>
-          <span class="text-slate-300">Generasi 1 (Anak)</span>
+        <div class="flex items-center gap-1.5">
+          <div class="w-3 h-3 shrink-0 rounded-sm" style="background: linear-gradient(135deg, #0d3c6e, #0455a0)"></div>
+          <span class="text-slate-300">Gen. 1</span>
         </div>
-        <div class="flex items-center gap-2">
-          <div
-            class="w-3 h-3 rounded-sm"
-            style="background: linear-gradient(135deg, #1e1b4b, #312e81)"
-          ></div>
-          <span class="text-slate-300">Generasi 2 (Cucu)</span>
+        <div class="flex items-center gap-1.5">
+          <div class="w-3 h-3 shrink-0 rounded-sm" style="background: linear-gradient(135deg, #1e1b4b, #312e81)"></div>
+          <span class="text-slate-300">Gen. 2</span>
         </div>
-        <div class="flex items-center gap-2">
-          <div
-            class="w-3 h-3 rounded-sm"
-            style="background: linear-gradient(135deg, #0c2a4a, #0e4f75)"
-          ></div>
-          <span class="text-slate-300">Generasi 3 (Cicit)</span>
+        <div class="flex items-center gap-1.5">
+          <div class="w-3 h-3 shrink-0 rounded-sm" style="background: linear-gradient(135deg, #0c2a4a, #0e4f75)"></div>
+          <span class="text-slate-300">Gen. 3</span>
         </div>
-        <div class="flex items-center gap-2">
-          <div
-            class="w-3 h-3 rounded-sm"
-            style="background: linear-gradient(135deg, #042f2e, #134e4a)"
-          ></div>
-          <span class="text-slate-300">Generasi 4</span>
+        <div class="flex items-center gap-1.5">
+          <div class="w-3 h-3 shrink-0 rounded-sm" style="background: linear-gradient(135deg, #042f2e, #134e4a)"></div>
+          <span class="text-slate-300">Gen. 4</span>
         </div>
-        <div
-          class="flex items-center gap-2 mt-1 pt-1 border-t border-slate-700"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14">
-            <circle
-              cx="7"
-              cy="7"
-              r="6"
-              fill="#1e293b"
-              stroke="#3aa6f6"
-              stroke-width="1.5"
-            />
-            <text
-              x="7"
-              y="7"
-              fill="#7ec4fb"
-              font-size="8"
-              font-weight="700"
-              text-anchor="middle"
-              dominant-baseline="middle"
-            >
-              +3
-            </text>
+        <div class="flex items-center gap-1.5 pl-2 border-l border-slate-600 sm:border-l-0 sm:border-t sm:border-slate-700 sm:pt-1 sm:mt-1 sm:pl-0">
+          <svg width="14" height="14" viewBox="0 0 14 14" class="shrink-0">
+            <circle cx="7" cy="7" r="6" fill="#1e293b" stroke="#3aa6f6" stroke-width="1.5" />
+            <text x="7" y="7" fill="#7ec4fb" font-size="8" font-weight="700" text-anchor="middle" dominant-baseline="middle">+3</text>
           </svg>
-          <span class="text-slate-300">Badge = jml. keturunan tersembunyi</span>
+          <span class="text-slate-300 sm:whitespace-normal">Badge = keturunan tersembunyi</span>
         </div>
       </div>
     </div>
