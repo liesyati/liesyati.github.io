@@ -1,5 +1,5 @@
 const FAMILY_DATA = [
-  { id: "root", name: "NACHROWI\n& DEWI MARIAM", parentId: "", level: 0 },
+  { id: "root", name: "NACHROWI\n& DEWI MARIAM", parentId: "", level: 0,photo: "images/Nachrowi.jpg" },
   { id: "node_1", name: "MUTMA'INAH\n& NUR HASAN", parentId: "root", level: 1 },
   { id: "node_2", name: "KHOSIM MUSTOFA\n& MUNJIYAH", parentId: "root", level: 1 },
   { id: "node_3", name: "Qosidah\n& Bastomi (Alm)", parentId: "node_2", level: 2 },
@@ -47,7 +47,7 @@ const FAMILY_DATA = [
   { id: "node_45", name: "Luluk Jamilah\n& Unknown", parentId: "node_27", level: 2 },
   { id: "node_46", name: "Unknown", parentId: "node_45", level: 3 },
   { id: "node_47", name: "Unknown", parentId: "node_45", level: 3 },
-  { id: "node_48", name: "MOETASLIMAH\n& SHOELKHAN", parentId: "root", level: 1 },
+  { id: "node_48", name: "MOETASLIMAH\n& SHOELCHAN", parentId: "root", level: 1, photo:"images/Soelchan.jpeg" },
   { id: "node_49", name: "Nadhiroh\n& Ahmad Maimun", parentId: "node_48", level: 2 },
   { id: "node_50", name: "Niswatul Mustafidah\n& Ali Budiarto", parentId: "node_49", level: 3 },
   { id: "node_51", name: "Luna", parentId: "node_50", level: 4 },
