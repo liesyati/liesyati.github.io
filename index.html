@@ -301,7 +301,7 @@
       }
     </style>
   </head>
-  <body class="bg-slate-950 text-white">
+  <body class="bg-slate-100 text-white">
     <!-- Header -->
     <header id="header" class="px-3 py-2 sm:px-6 sm:py-3">
       <!-- Row 1: Logo + Title -->
@@ -481,7 +481,7 @@
           class="text-white font-bold text-lg mb-1 whitespace-pre-line"
         ></h2>
         <p id="modal-level" class="text-brand-300 text-sm mb-4"></p>
-        <label class="block text-left mb-1 text-xs text-slate-400 font-medium"
+        <!-- <label class="block text-left mb-1 text-xs text-slate-400 font-medium"
           >Ganti Foto (opsional)</label
         >
         <input
@@ -492,7 +492,7 @@
         />
         <p class="text-slate-500 text-xs mt-2">
           Foto hanya tersimpan di browser ini (localStorage).
-        </p>
+        </p> -->
       </div>
     </div>
 
@@ -534,7 +534,7 @@
         "Generasi 1 (Anak)",
         "Generasi 2 (Cucu)",
         "Generasi 3 (Cicit)",
-        "Generasi 4",
+        "Generasi 4 (canggah)",
       ];
 
       let photoStore = JSON.parse(
@@ -732,14 +732,14 @@
               .attr("id", clipId)
               .append("circle")
               .attr("cx", 0)
-              .attr("cy", -H / 2 + pr + 26)
+              .attr("cy", -H / 2 + pr + 0)
               .attr("r", pr);
 
             // circle border
             sel
               .append("circle")
               .attr("cx", 0)
-              .attr("cy", -H / 2 + pr + 8)
+              .attr("cy", -H / 2 + pr + 0)
               .attr("r", pr + 1)
               .attr("fill", "none")
               .attr(
@@ -754,12 +754,15 @@
               )
               .attr("stroke-width", 1.8);
 
+            const photoUrl = photoStore[d.data.id] || d.data.photo || "";
+
             // default svg icon
             const iconG = sel
               .append("g")
               .attr("class", "default-icon")
-              .attr("clip-path", `url(#${clipId})`)
-              .attr("transform", `translate(0,${-H / 2 + pr + 6})`);
+              // .attr("clip-path", `url(#${clipId})`)
+              .attr("transform", `translate(0,${-H / 2 + pr + 0})`)
+              .style("display", photoUrl ? "none" : "block");
             iconG.append("circle").attr("r", pr).attr("fill", "#0f172a");
             iconG
               .append("circle")
@@ -787,8 +790,8 @@
               .attr("width", pr * 2)
               .attr("height", pr * 2)
               .attr("preserveAspectRatio", "xMidYMid slice")
-              .attr("href", photoStore[d.data.id] || "")
-              .style("display", photoStore[d.data.id] ? "block" : "none");
+              .attr("href", photoUrl)
+              .style("display", photoUrl ? "block" : "none");
 
             // Name lines
             const nameY = -H / 2 + pr * 2 + 26;
@@ -846,13 +849,14 @@
 
           // Update photo images for existing nodes
           nodeSel.each(function (d) {
+            const photoUrl = photoStore[d.data.id] || d.data.photo || "";
             d3.select(this)
               .select(".node-photo")
-              .attr("href", photoStore[d.data.id] || "")
-              .style("display", photoStore[d.data.id] ? "block" : "none");
+              .attr("href", photoUrl)
+              .style("display", photoUrl ? "block" : "none");
             d3.select(this)
               .select(".default-icon")
-              .style("display", photoStore[d.data.id] ? "none" : "block");
+              .style("display", photoUrl ? "none" : "block");
           });
 
           // Collapse badges
@@ -955,7 +959,7 @@
           );
           document.getElementById("modal-level").textContent =
             LEVEL_LABEL[Math.min(data.level, 4)];
-          const photo = photoStore[data.id];
+          const photo = photoStore[data.id] || data.photo;
           const img = document.getElementById("modal-photo");
           const icon = document.getElementById("modal-default-icon");
           if (photo) {

@@ -42,13 +42,36 @@ Jika ada penambahan anggota keturunan baru, langkah-langkahnya adalah sebagai be
 3. Untuk menambahkan anak baru, tambahkan baris data berikut di bagian bawah sebelum tutup siku `]`:
    ```javascript
    { 
-     id: "node_128",            // Buat ID yang unik / belum terpakai
-     name: "Nama Anak",         // Nama anggota keluarga baru
-     parentId: "node_50",       // Masukkan ID dari orang tuanya
-     level: 4                   // Kedalaman generasi (Akar = 0, Anak = 1, Cucu = 2, dst)
+     id: "node_128",              // Buat ID yang unik / belum terpakai
+     name: "Nama Anak",           // Nama anggota keluarga baru
+     parentId: "node_50",         // Masukkan ID dari orang tuanya
+     level: 4,                    // Kedalaman generasi (Akar = 0, Anak = 1, Cucu = 2, dst)
+     photo: "images/nama_file.jpg" // (Opsional) Path ke file foto lokal Anda
    }
    ```
 4. Simpan (*save*) file tersebut dan *Refresh* browser Anda. Silsilah otomatis akan diperbarui!
+
+## 📷 Cara Menambahkan Foto Profil
+
+Terdapat dua metode untuk memasukkan foto anggota keluarga:
+
+### Metode 1: Menggunakan Fitur Unggah di Browser (Praktis & Cepat)
+1. Buka `index.html` di browser Anda.
+2. **Double-click (klik dua kali)** secara cepat pada kotak/card nama orang yang ingin Anda tambahkan fotonya.
+3. Jendela pop-up (modal) detail anggota akan terbuka.
+4. Klik tombol **"Choose File"** (atau "Pilih File") di bawah kolom **Ganti Foto**.
+5. Pilih foto dari komputer/perangkat Anda. Foto akan langsung tampil di silsilah secara otomatis!
+> **Catatan:** Metode ini menyimpan foto di dalam memori penyimpanan lokal browser Anda (`localStorage`). Foto tidak diunggah ke server internet. Namun, jika Anda membersihkan *cache/history* browser, foto tersebut bisa hilang, dan foto tidak akan tampil jika dibuka dari komputer/browser lain.
+
+### Metode 2: Menyimpan File Foto secara Permanen (Rekomendasi untuk Github/Publikasi)
+Jika ingin foto tersimpan secara permanen dan bisa dilihat oleh orang lain saat web dibuka di komputer manapun:
+1. Siapkan file foto yang ingin digunakan (disarankan format JPG, PNG, atau WEBP dengan rasio kotak/persegi).
+2. Masukkan file foto tersebut ke dalam subfolder **`images/`** yang ada di folder proyek ini (misalnya disimpan sebagai `images/budi.jpg`).
+3. Buka file `data.js` dan tambahkan baris `photo: "images/nama_file.jpg"` pada objek data anggota keluarga yang bersangkutan. Contoh:
+   ```javascript
+   { id: "node_1", name: "MUTMA'INAH\n& NUR HASAN", parentId: "root", level: 1, photo: "images/mutmainah.jpg" },
+   ```
+4. Simpan file `data.js` dan muat ulang halaman `index.html`. Foto akan tampil secara permanen dan aman walaupun cache browser dihapus.
 
 ## 🎨 Cara Mengubah Desain & Ukuran (Customization)
 
